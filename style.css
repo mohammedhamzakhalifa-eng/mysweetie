@@ -622,25 +622,41 @@ body {
 
 /* SECTION 2: Cosmic Song Section Visuals */
 
-/* Glowing crescent moon */
-.cosmic-moon {
+/* Glowing crescent moon and lovers' names container */
+.moon-container {
     position: absolute;
-    top: 15%;
-    right: 12%; /* Top-right on screen for RTL balance */
-    width: 110px;
-    height: 110px;
+    top: 12%;
+    right: 10%; /* Placed top-right in space */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* space between names and moon shape */
+    z-index: 1;
+    animation: moon-float 6s infinite ease-in-out;
+}
+
+.moon-names {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 24px;
+    color: #fbe296; /* Matching glowing gold */
+    text-shadow: 0 0 15px rgba(251, 226, 150, 0.6);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.cosmic-moon {
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     background: transparent;
-    box-shadow: -18px 18px 0 0 #fbe296; /* crescent shape! */
-    filter: drop-shadow(0 0 22px rgba(251, 226, 150, 0.55));
+    box-shadow: -16px 16px 0 0 #fbe296; /* crescent shape! */
+    filter: drop-shadow(0 0 20px rgba(251, 226, 150, 0.5));
     transform: rotate(-15deg);
-    animation: moon-float 6s infinite ease-in-out;
-    z-index: 1;
+    flex-shrink: 0;
 }
 
 @keyframes moon-float {
-    0%, 100% { transform: rotate(-15deg) translateY(0); }
-    50% { transform: rotate(-12deg) translateY(-12px); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
 }
 
 .cosmic-stars {
@@ -886,11 +902,20 @@ body {
     }
 
     /* Mobile custom Ramy Sabry Section adjustments */
+    .moon-container {
+        top: 6%;
+        right: 5%;
+        gap: 10px;
+    }
+
     .cosmic-moon {
-        width: 75px;
-        height: 75px;
-        top: 8%;
-        right: 8%;
+        width: 65px;
+        height: 65px;
+        box-shadow: -12px 12px 0 0 #fbe296; /* scale crescent shadow for mobile */
+    }
+
+    .moon-names {
+        font-size: 18px;
     }
 
     .glass-letter {

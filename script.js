@@ -258,8 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = songLinesTexts[index];
 
         typeText(line, text, 55, () => {
-            // When line 2 of the lyrics is typed ("والشمس مكسوفة م الغزل..."), reveal cosmic player
-            if (index === 2) {
+            // When line 5 of Section 2 is typed ("أنت معيشني في الإحساس ده»؟"), reveal cosmic player
+            if (index === 4) {
                 cosmicPlayer.classList.add('typed');
                 setTimeout(() => {
                     typeSongLine(index + 1);
