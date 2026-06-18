@@ -8,6 +8,7 @@
 body {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     background: linear-gradient(135deg, #040307 0%, #0c0919 40%, #170d23 100%);
     overflow: hidden;
     font-family: 'Amiri', serif;
@@ -19,6 +20,7 @@ body {
 .scroll-container {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow-y: hidden; /* Locked initially, unlocked in JS */
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
@@ -33,6 +35,7 @@ body {
 .page-section {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     scroll-snap-align: start;
     position: relative;
     display: flex;
@@ -163,8 +166,8 @@ body {
 /* Envelope Container and 3D System */
 .envelope-wrapper {
     position: relative;
-    width: 440px;
-    height: 300px;
+    width: min(440px, 90vw);
+    aspect-ratio: 440 / 300;
     transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: 10;
 }
@@ -552,8 +555,8 @@ body {
 .envelope-wrapper.letter-active .letter {
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 480px;
+    width: min(500px, 90vw);
+    height: min(480px, 80dvh);
     transform: translate(-50%, -50%) scale(1);
     z-index: 100;
     box-shadow: 
@@ -822,10 +825,114 @@ body {
 
 /* MOBILE RESPONSIVENESS AND TABLET SUPPORT */
 
+@media (max-width: 1024px) {
+    /* Section 1 - Envelope & Letter adjusts for tablets */
+    .envelope-wrapper {
+        width: min(380px, 90vw);
+    }
+
+    .envelope-wrapper.letter-active .letter {
+        width: min(460px, 85vw);
+        height: min(480px, 75dvh);
+    }
+
+    .letter-border {
+        padding: 20px 24px;
+    }
+
+    .letter-title {
+        font-size: 23px;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+        padding-right: 40px; /* Offset for red margin line */
+    }
+
+    .letter-body {
+        background-size: 100% 34px;
+        background-position: 0 12px;
+        padding: 5px 0;
+        padding-right: 40px;
+    }
+
+    .letter-body::before {
+        right: 30px;
+    }
+
+    .letter-line {
+        font-size: 19px;
+        line-height: 34px;
+    }
+
+    .letter-quote-box {
+        padding: 10px 14px;
+        margin: 10px 0;
+    }
+
+    .letter-line.font-highlight {
+        font-size: 21px;
+        line-height: 34px;
+        margin-top: 6px;
+    }
+
+    .letter-footer {
+        font-size: 14px;
+        padding-top: 6px;
+        margin-top: 8px;
+    }
+
+    /* Section 2 - Cosmic Song Section vertical alignment to prevent overlap */
+    #song-section {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .moon-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        justify-content: center;
+        margin-bottom: 0;
+        gap: 12px;
+    }
+
+    .cosmic-moon {
+        width: 75px;
+        height: 75px;
+        box-shadow: -12px 12px 0 0 #fbe296;
+    }
+
+    .moon-names {
+        font-size: 21px;
+    }
+
+    .glass-letter {
+        width: 85vw;
+        max-width: 460px;
+        padding: 24px;
+    }
+
+    .song-line {
+        font-size: 19px;
+    }
+
+    .glass-quote-box {
+        padding: 14px;
+        margin: 12px 0;
+    }
+
+    .cosmic-player {
+        width: 100%;
+        max-width: 360px;
+        padding: 6px 16px;
+        margin: 10px auto;
+    }
+}
+
 @media (max-width: 600px) {
     .envelope-wrapper {
-        width: 325px;
-        height: 220px;
+        width: min(325px, 90vw);
     }
 
     .open-hint {
@@ -850,9 +957,9 @@ body {
     /* Scaling the final active letter for small screen sizes */
     .envelope-wrapper.letter-active .letter {
         width: 90vw;
-        height: 72vh;
+        height: min(450px, 75dvh);
+        min-height: min(420px, 75dvh);
         max-width: 360px;
-        min-height: 420px;
     }
 
     .letter-border {
@@ -902,9 +1009,19 @@ body {
     }
 
     /* Mobile custom Ramy Sabry Section adjustments */
+    #song-section {
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+    }
+
     .moon-container {
-        top: 6%;
-        right: 5%;
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        justify-content: center;
+        margin-bottom: 0;
         gap: 10px;
     }
 
@@ -935,7 +1052,7 @@ body {
     .cosmic-player {
         width: 100%;
         padding: 6px 14px;
-        margin: 10px 0;
+        margin: 10px auto;
     }
 
     .music-btn {
@@ -952,19 +1069,164 @@ body {
     }
 }
 
-/* Adjust landscape orientation on tiny mobile screens */
-@media (max-height: 480px) and (orientation: landscape) {
+@media (max-width: 400px) {
     .envelope-wrapper.letter-active .letter {
-        height: 85vh;
+        width: 92vw;
+        height: min(430px, 80dvh);
+        min-height: min(400px, 80dvh);
+    }
+    
+    .letter-border {
+        padding: 12px 14px;
+    }
+    
+    .letter-title {
+        font-size: 18px;
+        padding-bottom: 6px;
+        margin-bottom: 8px;
+        padding-right: 24px;
+    }
+    
+    .letter-body {
+        background-size: 100% 28px;
+        background-position: 0 8px;
+        padding-right: 24px;
+    }
+    
+    .letter-body::before {
+        right: 18px;
+    }
+    
+    .letter-line {
+        font-size: 15.5px;
+        line-height: 28px;
+    }
+    
+    .letter-quote-box {
+        padding: 6px 10px;
+        margin: 6px 0;
+    }
+    
+    .letter-line.font-highlight {
+        font-size: 18px;
+        line-height: 28px;
+        margin-top: 4px;
+    }
+    
+    .letter-footer {
+        font-size: 12px;
+        padding-top: 4px;
+        margin-top: 6px;
+    }
+
+    .song-line {
+        font-size: 15px;
+    }
+
+    .glass-letter {
+        padding: 16px 14px;
+    }
+
+    .glass-quote-box {
+        padding: 8px 10px;
+        margin: 8px 0;
+    }
+
+    .cosmic-player {
+        padding: 4px 10px;
+    }
+}
+
+/* Adjust landscape orientation on tiny mobile screens */
+@media (max-height: 520px) and (orientation: landscape) {
+    .envelope-wrapper.letter-active .letter {
+        width: min(500px, 85vw);
+        height: 85dvh;
         min-height: auto;
     }
     
     .letter-body {
         gap: 4px;
+        padding: 4px 0;
+        background-size: 100% 28px;
+        background-position: 0 8px;
+        padding-right: 32px;
+    }
+    
+    .letter-body::before {
+        right: 24px;
     }
     
     .letter-line {
-        font-size: 13.5px;
-        line-height: 1.4;
+        font-size: 14.5px;
+        line-height: 28px;
+    }
+
+    .letter-quote-box {
+        padding: 6px 10px;
+        margin: 6px 0;
+    }
+
+    .letter-line.font-highlight {
+        font-size: 16px;
+        line-height: 28px;
+        margin-top: 4px;
+    }
+
+    .letter-footer {
+        font-size: 12px;
+        padding-top: 4px;
+        margin-top: 6px;
+    }
+
+    #song-section {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        padding: 15px;
+    }
+
+    .moon-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 0;
+    }
+
+    .cosmic-moon {
+        width: 55px;
+        height: 55px;
+        box-shadow: -10px 10px 0 0 #fbe296;
+    }
+
+    .moon-names {
+        font-size: 16px;
+    }
+
+    .glass-letter {
+        width: 55vw;
+        max-width: 420px;
+        padding: 14px 20px;
+    }
+
+    .song-line {
+        font-size: 14.5px;
+        line-height: 1.5;
+    }
+
+    .glass-quote-box {
+        padding: 8px 12px;
+        margin: 8px 0;
+    }
+
+    .cosmic-player {
+        width: 100%;
+        max-width: 320px;
+        padding: 4px 12px;
+        margin: 8px auto;
     }
 }
