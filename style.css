@@ -8,18 +8,41 @@
 body {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, #050409 0%, #110d21 40%, #1f1330 100%);
+    background: linear-gradient(135deg, #040307 0%, #0c0919 40%, #170d23 100%);
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: 'Amiri', serif;
     color: #fff;
-    perspective: 1200px;
     position: relative;
 }
 
-/* Ambient Night Atmosphere */
+/* Scroll Snap System */
+.scroll-container {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: hidden; /* Locked initially, unlocked in JS */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.page-section {
+    width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+/* Ambient Night Atmosphere (Global Layers) */
 .stars-layer {
     position: absolute;
     top: 0;
@@ -40,14 +63,8 @@ body {
 }
 
 @keyframes twinkle {
-    0%, 100% {
-        opacity: 0.2;
-        transform: scale(0.8);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.3);
-    }
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.3); }
 }
 
 .hearts-layer {
@@ -71,20 +88,10 @@ body {
 }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(105vh) translateX(0) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: var(--opacity);
-    }
-    90% {
-        opacity: var(--opacity);
-    }
-    100% {
-        transform: translateY(-10vh) translateX(var(--sway)) rotate(var(--rotation));
-        opacity: 0;
-    }
+    0% { transform: translateY(105vh) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: var(--opacity); }
+    90% { opacity: var(--opacity); }
+    100% { transform: translateY(-10vh) translateX(var(--sway)) rotate(var(--rotation)); opacity: 0; }
 }
 
 .moonlight {
@@ -154,16 +161,6 @@ body {
 }
 
 /* Envelope Container and 3D System */
-.container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
 .envelope-wrapper {
     position: relative;
     width: 440px;
@@ -211,7 +208,7 @@ body {
     z-index: 3; /* In front of letter */
     transform-style: preserve-3d;
     transition: opacity 1s ease, transform 1s ease;
-    pointer-events: none; /* Let click events pass to buttons/seals */
+    pointer-events: none;
 }
 
 /* Envelope Flap (opens upwards) */
@@ -266,7 +263,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
-    pointer-events: auto; /* Allow click interactions */
+    pointer-events: auto;
 }
 
 .wax-seal:hover {
@@ -328,10 +325,7 @@ body {
     transition: opacity 0.5s ease;
 }
 
-.hint-text {
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-
+.hint-text { text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 .hint-pulse {
     width: 8px;
     height: 8px;
@@ -346,7 +340,40 @@ body {
     50% { transform: scale(1.6); opacity: 1; box-shadow: 0 0 14px #e6c160; }
 }
 
-/* The Letter Card (Warm Ivory Calligraphy Paper) */
+/* Page Scroll Down Hint Indicator */
+.scroll-down-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #e6c160;
+    font-family: 'El Messiri', sans-serif;
+    font-size: 15px;
+    z-index: 20;
+    opacity: 0; /* JS reveals this when typewriter completes */
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+}
+
+.scroll-down-hint.revealed {
+    opacity: 0.85;
+}
+
+.scroll-hint-arrow {
+    font-size: 20px;
+    animation: bounce-arrow 1.8s infinite ease-in-out;
+}
+
+@keyframes bounce-arrow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+/* The Letter Card (Warm Ivory Copybook Page) */
 .letter {
     position: absolute;
     top: 6%;
@@ -357,11 +384,12 @@ body {
     background-image: radial-gradient(circle at 50% 50%, #fdfcf9 0%, #f7f1e3 100%);
     border-radius: 3px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.3);
-    z-index: 2;
-    overflow: hidden;
+    z-index: 2; /* Sandwiched in envelope */
+    overflow-y: auto;
+    scrollbar-width: none;
     display: flex;
     flex-direction: column;
-    font-family: 'Aref Ruqaa', serif; /* Premium Calligraphy / Handwriting style globally in letter */
+    font-family: 'Aref Ruqaa', serif;
     transition: 
         transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
         width 0.9s ease, 
@@ -369,6 +397,10 @@ body {
         top 0.9s ease, 
         left 0.9s ease, 
         z-index 0.9s;
+}
+
+.letter::-webkit-scrollbar {
+    display: none;
 }
 
 /* Letter Border - Removed decorative outlines to match a clean notebook sheet */
@@ -405,7 +437,7 @@ body {
     border-bottom: 1.5px solid rgba(193, 149, 48, 0.15);
     padding-bottom: 10px;
     padding-right: 50px; /* Offset for red margin line */
-    opacity: 0; /* Handled by typewriter */
+    opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
@@ -414,10 +446,9 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: flex-start; /* Flow top-down like paper */
+    justify-content: flex-start;
     padding: 10px 0;
-    padding-right: 50px; /* Text starts to the left of the red margin line */
-    /* Ruled copybook lines background */
+    padding-right: 50px; /* Offset text to the left of the margin line */
     background-image: linear-gradient(rgba(193, 149, 48, 0.08) 1.5px, transparent 1.5px);
     background-size: 100% 38px;
     background-position: 0 15px;
@@ -439,11 +470,11 @@ body {
 
 .letter-line {
     font-family: 'Aref Ruqaa', serif;
-    font-size: 21px; /* Clear calligraphic text size */
+    font-size: 21px;
     color: #3c221d; /* Dark brown ink matching reference image */
-    font-weight: 700; /* Solid ink weight */
-    line-height: 38px; /* Perfectly aligned to notebook lines */
-    text-align: right; /* Aligned right by default, matching image */
+    font-weight: 700;
+    line-height: 38px; /* Aligns to ruled lines */
+    text-align: right;
     margin: 0;
     opacity: 0;
     transform: translateY(10px);
@@ -463,10 +494,9 @@ body {
     box-shadow: 0 2px 8px rgba(193, 149, 48, 0.04);
 }
 
-/* Center and adjust quotes inside the box */
 .letter-quote-box .letter-line {
-    text-align: center; /* Quoted song lyrics are centered */
-    color: #58332c; /* Warm golden brown text color */
+    text-align: center; /* Centered inside the box */
+    color: #58332c;
 }
 
 /* Highlight line for the eyes */
@@ -475,7 +505,7 @@ body {
     font-size: 24px;
     color: #9c0c1b; /* Deep romantic crimson highlight */
     font-weight: 700;
-    text-align: center; /* Centered for visual balance */
+    text-align: center;
     margin-top: 8px;
 }
 
@@ -487,9 +517,9 @@ body {
     border-top: 1.5px solid rgba(193, 149, 48, 0.15);
     padding-top: 8px;
     margin-top: 10px;
-    padding-left: 12px; /* Slight alignment inset */
+    padding-left: 12px;
     font-weight: 700;
-    opacity: 0; /* Controlled by JS typewriter */
+    opacity: 0;
     transition: opacity 1.5s ease;
 }
 
@@ -570,14 +600,8 @@ body {
 }
 
 @keyframes text-pulse-glow {
-    0%, 100% {
-        text-shadow: 0 0 3px rgba(181, 28, 44, 0.1);
-        transform: scale(1);
-    }
-    50% {
-        text-shadow: 0 0 10px rgba(181, 28, 44, 0.25), 0 0 15px rgba(181, 28, 44, 0.1);
-        transform: scale(1.02);
-    }
+    0%, 100% { text-shadow: 0 0 3px rgba(181, 28, 44, 0.1); transform: scale(1); }
+    50% { text-shadow: 0 0 10px rgba(181, 28, 44, 0.25), 0 0 15px rgba(181, 28, 44, 0.1); transform: scale(1.02); }
 }
 
 /* Fade out envelope visual components during letter-active state */
@@ -593,6 +617,190 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
+}
+
+
+/* SECTION 2: Cosmic Song Section Visuals */
+
+/* Glowing crescent moon */
+.cosmic-moon {
+    position: absolute;
+    top: 15%;
+    right: 12%; /* Top-right on screen for RTL balance */
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: -18px 18px 0 0 #fbe296; /* crescent shape! */
+    filter: drop-shadow(0 0 22px rgba(251, 226, 150, 0.55));
+    transform: rotate(-15deg);
+    animation: moon-float 6s infinite ease-in-out;
+    z-index: 1;
+}
+
+@keyframes moon-float {
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-12deg) translateY(-12px); }
+}
+
+.cosmic-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Glassmorphic card floating between moon and stars */
+.glass-letter {
+    width: 90vw;
+    max-width: 500px;
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 55px rgba(0, 0, 0, 0.5), 
+        inset 0 0 25px rgba(255, 255, 255, 0.03),
+        0 0 40px rgba(251, 226, 150, 0.05);
+    z-index: 2;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    font-family: 'Aref Ruqaa', serif;
+}
+
+.glass-letter.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glass-letter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.song-line {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 21px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.song-line.typed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glass-quote-box {
+    background-color: rgba(230, 193, 96, 0.04);
+    border-right: 4px solid #e6c160;
+    border-left: 1px solid rgba(230, 193, 96, 0.15);
+    border-top: 1px solid rgba(230, 193, 96, 0.15);
+    border-bottom: 1px solid rgba(230, 193, 96, 0.15);
+    border-radius: 8px;
+    padding: 18px;
+    margin: 14px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.glass-quote-box .song-line {
+    color: #e6c160; /* Glowing gold lyrics */
+    text-shadow: 0 0 8px rgba(230, 193, 96, 0.25);
+    text-align: center;
+}
+
+/* Custom Cosmic Audio Player inside glass letter */
+.cosmic-player {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 8px 18px;
+    margin: 15px auto;
+    width: 90%;
+    max-width: 380px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 1s ease, transform 1s ease;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.cosmic-player.typed {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.cosmic-play-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fbe296 0%, #c19530 100%);
+    border: none;
+    color: #3c221d; /* Dark ink color */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(193, 149, 48, 0.35);
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.cosmic-play-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(251, 226, 150, 0.5);
+}
+
+.cosmic-player-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cosmic-song-title {
+    font-family: 'El Messiri', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    text-align: right;
+    line-height: 1.2;
+}
+
+.cosmic-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.cosmic-progress {
+    height: 100%;
+    width: 0%;
+    background-color: #e6c160;
+    border-radius: 2px;
+    transition: width 0.1s linear;
 }
 
 
@@ -677,12 +885,45 @@ body {
         margin-top: 8px;
     }
 
+    /* Mobile custom Ramy Sabry Section adjustments */
+    .cosmic-moon {
+        width: 75px;
+        height: 75px;
+        top: 8%;
+        right: 8%;
+    }
+
+    .glass-letter {
+        width: 92vw;
+        padding: 20px;
+    }
+
+    .song-line {
+        font-size: 17px;
+    }
+
+    .glass-quote-box {
+        padding: 12px;
+        margin: 10px 0;
+    }
+
+    .cosmic-player {
+        width: 100%;
+        padding: 6px 14px;
+        margin: 10px 0;
+    }
+
     .music-btn {
         top: 15px;
         right: 15px;
         width: 40px;
         height: 40px;
         font-size: 14px;
+    }
+
+    .scroll-down-hint {
+        bottom: 20px;
+        font-size: 13.5px;
     }
 }
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Night Sky Ambient Elements -->
+    <!-- Night Sky Ambient Elements (twinkling stars and floating hearts are global) -->
     <div id="stars" class="stars-layer"></div>
     <div id="hearts" class="hearts-layer"></div>
     <div class="moonlight"></div>
@@ -22,64 +22,115 @@
         <span class="music-icon">🔇</span>
     </button>
 
-    <!-- Main Container -->
-    <main class="container">
-        <!-- Interactive Envelope -->
-        <div class="envelope-wrapper" id="envelope-wrapper">
-            <!-- Envelope Back Wall -->
-            <div class="envelope-back" id="envelope-back"></div>
-            
-            <!-- The Letter (slides out and opens) - Sandwiched between back and front -->
-            <article class="letter" id="letter" aria-label="رسالة حب">
-                <div class="letter-border">
-                    <div class="letter-content">
-                        <h1 class="letter-title">إلى أنثتي النائمة الآن،</h1>
-                        <div class="letter-body">
-                            <p class="letter-line line-1">أنا مغرمٌ بكِ،</p>
-                            
-                            <div class="letter-quote-box">
-                                <p class="letter-line line-2">وعارف إنكِ لما تصحي</p>
-                                <p class="letter-line line-3">هتشوفي اللي كتبته بعيونكِ الجميلة.</p>
+    <!-- Scroll snapping container -->
+    <div class="scroll-container" id="scroll-container">
+        
+        <!-- SECTION 1: Morning Letter -->
+        <section class="page-section" id="morning-section">
+            <div class="envelope-wrapper" id="envelope-wrapper">
+                <!-- Envelope Back Wall -->
+                <div class="envelope-back" id="envelope-back"></div>
+                
+                <!-- The Letter (sandwiched in between back and front) -->
+                <article class="letter" id="letter" aria-label="رسالة حب صباحية">
+                    <div class="letter-border">
+                        <div class="letter-content">
+                            <h1 class="letter-title">إلى أنثتي النائمة الآن،</h1>
+                            <div class="letter-body">
+                                <p class="letter-line line-1">أنا مغرمٌ بكِ،</p>
+                                
+                                <div class="letter-quote-box">
+                                    <p class="letter-line line-2">وعارف إنكِ لما تصحي</p>
+                                    <p class="letter-line line-3">هتشوفي اللي كتبته بعيونكِ الجميلة.</p>
+                                </div>
+                                
+                                <p class="letter-line line-4">خليكي فاكرة دايمًا</p>
+                                <p class="letter-line line-5 font-highlight">إني مغرمٌ بتلك العيون.</p>
                             </div>
-                            
-                            <p class="letter-line line-4">خليكي فاكرة دايمًا</p>
-                            <p class="letter-line line-5 font-highlight">إني مغرمٌ بتلك العيون.</p>
+                            <footer class="letter-footer">
+                                من شخص مغرم بتلك العيون ❤️
+                            </footer>
                         </div>
-                        <footer class="letter-footer">
-                            من شخص مغرم بتلك العيون ❤️
-                        </footer>
                     </div>
+                </article>
+
+                <!-- Envelope Front (flap, pocket, seal) -->
+                <div class="envelope-front" id="envelope-front">
+                    <!-- Top Flap (closes over the envelope) -->
+                    <div class="envelope-flap"></div>
+                    
+                    <!-- Inner Pocket (holds the letter) -->
+                    <div class="envelope-pocket"></div>
+                    
+                    <!-- Wax Seal (Click trigger to open the envelope) -->
+                    <div class="wax-seal" id="wax-seal">
+                        <div class="seal-inner">
+                            <span class="seal-heart">❤</span>
+                        </div>
+                        <div class="seal-glow"></div>
+                    </div>
+                </div>
+                
+                <!-- Floating interactive hint -->
+                <div class="open-hint" id="open-hint">
+                    <span class="hint-text">اضغطي لفتح الرسالة ✨</span>
+                    <span class="hint-pulse"></span>
+                </div>
+            </div>
+
+            <!-- Page scroll down indicator (hidden initially, unlocked after typing ends) -->
+            <div class="scroll-down-hint" id="scroll-down-hint">
+                <span class="scroll-hint-text">اسحبي لأسفل 🌙</span>
+                <span class="scroll-hint-arrow">↓</span>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Cosmic Song Section ("Between Moon and Stars") -->
+        <section class="page-section" id="song-section">
+            <!-- Glowing Crescent Moon -->
+            <div class="cosmic-moon"></div>
+            
+            <!-- Extra bright local twinkling stars -->
+            <div class="cosmic-stars" id="cosmic-stars"></div>
+            
+            <!-- Glassmorphic Letter Card -->
+            <article class="glass-letter" id="glass-letter" aria-label="رسالة الأغنية">
+                <div class="glass-letter-content">
+                    <p class="song-line s-line-1">عارفة الأغنية بتاعة رامي صبري اللي بتقول:</p>
+                    
+                    <div class="glass-quote-box">
+                        <p class="song-line s-line-2">غار القمر من حبّه فيّ، خبّى النهار عن البشر..</p>
+                        <p class="song-line s-line-3">والشمس مكسوفة م الغزل، بين النجوم اسمي اتشهر</p>
+                    </div>
+
+                    <!-- Custom Cosmic Audio Player -->
+                    <div class="cosmic-player" id="cosmic-player">
+                        <button class="cosmic-play-btn" id="cosmic-play-btn" type="button" aria-label="تشغيل الأغنية">
+                            <span class="cosmic-play-icon">▶</span>
+                        </button>
+                        <div class="cosmic-player-info">
+                            <span class="cosmic-song-title">رامي صبري - غار القمر 🎵</span>
+                            <div class="cosmic-progress-bar" id="cosmic-progress-bar">
+                                <div class="cosmic-progress" id="cosmic-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="song-line s-line-4">أنتِ معيّشاني في الإحساس ده...</p>
                 </div>
             </article>
+        </section>
 
-            <!-- Envelope Front (flap, pocket, seal) -->
-            <div class="envelope-front" id="envelope-front">
-                <!-- Top Flap (closes over the envelope) -->
-                <div class="envelope-flap"></div>
-                
-                <!-- Inner Pocket (holds the letter) -->
-                <div class="envelope-pocket"></div>
-                
-                <!-- Wax Seal (Click trigger to open the envelope) -->
-                <div class="wax-seal" id="wax-seal">
-                    <div class="seal-inner">
-                        <span class="seal-heart">❤</span>
-                    </div>
-                    <div class="seal-glow"></div>
-                </div>
-            </div>
-            
-            <!-- Floating interactive hint -->
-            <div class="open-hint" id="open-hint">
-                <span class="hint-text">اضغطي لفتح الرسالة ✨</span>
-                <span class="hint-pulse"></span>
-            </div>
-        </div>
-    </main>
+    </div>
 
-    <!-- Background Music (Gymnopédie No. 1 - Claude Debussy / Erik Satie styled piano) -->
+    <!-- Background Instrumental Music (Gymnopédie No. 1) -->
     <audio id="bg-music" loop preload="auto">
         <source src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gymnopedie%20No%201.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Custom Ramy Sabry Song Audio -->
+    <audio id="ramy-song" preload="auto">
+        <source src="song/Ramy_Sabry_Ghar_El_Amaar_2026_｜_رامي_صبري_غار_القمر_مسلسل_وننسى.m4a" type="audio/mp4">
     </audio>
 
     <script src="script.js"></script>
