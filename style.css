@@ -1,0 +1,704 @@
+/* Reset & Base Styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #050409 0%, #110d21 40%, #1f1330 100%);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Amiri', serif;
+    color: #fff;
+    perspective: 1200px;
+    position: relative;
+}
+
+/* Ambient Night Atmosphere */
+.stars-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 4px #fff;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+.hearts-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.heart-particle {
+    position: absolute;
+    color: rgba(254, 219, 224, 0.45);
+    font-size: var(--size);
+    pointer-events: none;
+    z-index: 1;
+    filter: drop-shadow(0 0 2px rgba(254, 219, 224, 0.3));
+    animation: floatUp var(--duration) linear forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(105vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--opacity);
+    }
+    90% {
+        opacity: var(--opacity);
+    }
+    100% {
+        transform: translateY(-10vh) translateX(var(--sway)) rotate(var(--rotation));
+        opacity: 0;
+    }
+}
+
+.moonlight {
+    position: absolute;
+    top: -25vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vh;
+    height: 90vh;
+    background: radial-gradient(circle, rgba(255, 246, 224, 0.08) 0%, rgba(255, 246, 224, 0.02) 50%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(40px);
+}
+
+.warm-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(253, 169, 185, 0.03) 0%, rgba(162, 89, 214, 0.01) 60%, transparent 80%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(50px);
+}
+
+/* Floating Music Control Button */
+.music-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.music-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(254, 219, 224, 0.15);
+}
+
+.music-btn.playing .music-icon {
+    animation: music-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes music-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Envelope Container and 3D System */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 440px;
+    height: 300px;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 10;
+}
+
+.envelope-wrapper:not(.open):hover {
+    transform: translateY(-8px) rotate(1deg);
+}
+
+.envelope-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #551c27; /* Rich velvet burgundy */
+    border-radius: 6px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    z-index: 1; /* Behind letter */
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Dark internal wall of the envelope */
+.envelope-back::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3b0f17;
+    border-radius: 6px;
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.75);
+}
+
+.envelope-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3; /* In front of letter */
+    transform-style: preserve-3d;
+    transition: opacity 1s ease, transform 1s ease;
+    pointer-events: none; /* Let click events pass to buttons/seals */
+}
+
+/* Envelope Flap (opens upwards) */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #5c1e2a;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transform: rotateX(0deg);
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s;
+    z-index: 4;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+}
+
+/* Envelope Pocket (covers the bottom portion) */
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 66%;
+    background-color: #49151e;
+    clip-path: polygon(0 20%, 50% 62%, 100% 20%, 100% 100%, 0 100%);
+    z-index: 3;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.35);
+    pointer-events: auto;
+}
+
+/* Premium Gold Wax Seal */
+.wax-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -15%) scale(1);
+    width: 58px;
+    height: 58px;
+    background: radial-gradient(circle, #e6c160 0%, #c19530 70%, #906c1c 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.45), 
+        inset 0 2px 4px rgba(255, 255, 255, 0.5),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    pointer-events: auto; /* Allow click interactions */
+}
+
+.wax-seal:hover {
+    transform: translate(-50%, -15%) scale(1.12);
+}
+
+.seal-inner {
+    width: 46px;
+    height: 46px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seal-heart {
+    color: #49151e;
+    font-size: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    animation: heart-beat 1.5s infinite ease-in-out;
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.seal-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 18px rgba(230, 193, 96, 0.6);
+    animation: seal-glow-pulse 2s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes seal-glow-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.25); opacity: 0.8; }
+}
+
+/* Interactive Hint Text */
+.open-hint {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(254, 219, 224, 0.85);
+    font-family: 'El Messiri', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.5s ease;
+}
+
+.hint-text {
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.hint-pulse {
+    width: 8px;
+    height: 8px;
+    background-color: #e6c160;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #e6c160;
+    animation: hint-pulse-anim 1.5s infinite ease-in-out;
+}
+
+@keyframes hint-pulse-anim {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.6); opacity: 1; box-shadow: 0 0 14px #e6c160; }
+}
+
+/* The Letter Card (Warm Ivory Calligraphy Paper) */
+.letter {
+    position: absolute;
+    top: 6%;
+    left: 5%;
+    width: 90%;
+    height: 88%;
+    background-color: #fcf9f2;
+    background-image: radial-gradient(circle at 50% 50%, #fdfcf9 0%, #f7f1e3 100%);
+    border-radius: 3px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    z-index: 2;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Aref Ruqaa', serif; /* Premium Calligraphy / Handwriting style globally in letter */
+    transition: 
+        transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
+        width 0.9s ease, 
+        height 0.9s ease, 
+        top 0.9s ease, 
+        left 0.9s ease, 
+        z-index 0.9s;
+}
+
+/* Letter Border - Removed decorative outlines to match a clean notebook sheet */
+.letter-border {
+    margin: 0;
+    border: none;
+    outline: none;
+    padding: 24px 28px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: none;
+    position: relative;
+}
+
+.letter-content {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    transition: opacity 0.5s ease;
+}
+
+/* Letter Content Typography */
+.letter-title {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 26px;
+    color: #3c221d; /* Elegant warm fountain pen brown */
+    text-align: right;
+    font-weight: 700;
+    margin-bottom: 8px;
+    border-bottom: 1.5px solid rgba(193, 149, 48, 0.15);
+    padding-bottom: 10px;
+    padding-right: 50px; /* Offset for red margin line */
+    opacity: 0; /* Handled by typewriter */
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.letter-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: flex-start; /* Flow top-down like paper */
+    padding: 10px 0;
+    padding-right: 50px; /* Text starts to the left of the red margin line */
+    /* Ruled copybook lines background */
+    background-image: linear-gradient(rgba(193, 149, 48, 0.08) 1.5px, transparent 1.5px);
+    background-size: 100% 38px;
+    background-position: 0 15px;
+    position: relative;
+}
+
+/* Vertical notebook margin line */
+.letter-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 38px; /* Positioned from the right edge */
+    width: 1.5px;
+    height: 100%;
+    background-color: rgba(220, 100, 100, 0.22); /* Faint notebook red margin line */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.letter-line {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 21px; /* Clear calligraphic text size */
+    color: #3c221d; /* Dark brown ink matching reference image */
+    font-weight: 700; /* Solid ink weight */
+    line-height: 38px; /* Perfectly aligned to notebook lines */
+    text-align: right; /* Aligned right by default, matching image */
+    margin: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Quote Box matching the uploaded reference image */
+.letter-quote-box {
+    background-color: rgba(253, 240, 230, 0.75); /* Warm soft orange wash */
+    border-right: 4px solid #c89e37; /* Strong golden accent line on the right side */
+    border-left: 1px solid rgba(193, 149, 48, 0.15);
+    border-top: 1px solid rgba(193, 149, 48, 0.15);
+    border-bottom: 1px solid rgba(193, 149, 48, 0.15);
+    border-radius: 4px;
+    padding: 12px 18px;
+    margin: 12px 0;
+    box-shadow: 0 2px 8px rgba(193, 149, 48, 0.04);
+}
+
+/* Center and adjust quotes inside the box */
+.letter-quote-box .letter-line {
+    text-align: center; /* Quoted song lyrics are centered */
+    color: #58332c; /* Warm golden brown text color */
+}
+
+/* Highlight line for the eyes */
+.letter-line.font-highlight {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 24px;
+    color: #9c0c1b; /* Deep romantic crimson highlight */
+    font-weight: 700;
+    text-align: center; /* Centered for visual balance */
+    margin-top: 8px;
+}
+
+.letter-footer {
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 15px;
+    color: #5a4f4d; /* Charcoal sepia signature */
+    text-align: left;
+    border-top: 1.5px solid rgba(193, 149, 48, 0.15);
+    padding-top: 8px;
+    margin-top: 10px;
+    padding-left: 12px; /* Slight alignment inset */
+    font-weight: 700;
+    opacity: 0; /* Controlled by JS typewriter */
+    transition: opacity 1.5s ease;
+}
+
+/* OPEN ANIMATION SEQUENCE STAGES */
+
+/* Stage 1: Wax Seal slides away */
+.envelope-wrapper.open .wax-seal {
+    opacity: 0;
+    transform: translate(-50%, -15%) scale(0.4) rotate(45deg);
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.5s ease;
+}
+
+/* Stage 2: Flap rotates backwards (opens) */
+.envelope-wrapper.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1; /* Move behind the letter stack */
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s;
+    transition-delay: 0.3s;
+}
+
+/* Stage 3: Letter slides out of pocket */
+.envelope-wrapper.open .letter {
+    transform: translateY(-80%);
+    z-index: 12;
+    transition-delay: 0.8s;
+}
+
+/* Stage 4: Letter scales up to center-focus & envelope fades down */
+.envelope-wrapper.letter-active .letter {
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 480px;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
+    box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.45), 
+        0 0 35px rgba(254, 219, 224, 0.1),
+        inset 0 0 40px rgba(0, 0, 0, 0.02); /* Soft paper shadow edge */
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Clean borderless paper edge */
+    animation: card-breathing-glow 4s infinite ease-in-out;
+}
+
+@keyframes card-breathing-glow {
+    0%, 100% {
+        box-shadow: 
+            0 20px 45px rgba(0, 0, 0, 0.45), 
+            0 0 25px rgba(254, 219, 224, 0.08),
+            inset 0 0 40px rgba(0, 0, 0, 0.02);
+    }
+    50% {
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.5), 
+            0 0 40px rgba(254, 219, 224, 0.2),
+            inset 0 0 40px rgba(0, 0, 0, 0.03);
+    }
+}
+
+.envelope-wrapper.letter-active .letter-content {
+    opacity: 1;
+    transition-delay: 0.4s;
+}
+
+/* Sequenced typewriter reveal handled by script.js */
+.envelope-wrapper.letter-active .letter-title.typed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.letter-line.typed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.letter-line.font-highlight.typing-finished {
+    animation: text-pulse-glow 3s infinite ease-in-out;
+}
+
+@keyframes text-pulse-glow {
+    0%, 100% {
+        text-shadow: 0 0 3px rgba(181, 28, 44, 0.1);
+        transform: scale(1);
+    }
+    50% {
+        text-shadow: 0 0 10px rgba(181, 28, 44, 0.25), 0 0 15px rgba(181, 28, 44, 0.1);
+        transform: scale(1.02);
+    }
+}
+
+/* Fade out envelope visual components during letter-active state */
+.envelope-wrapper.letter-active .envelope-back,
+.envelope-wrapper.letter-active .envelope-front {
+    opacity: 0.08;
+    transform: scale(0.8) translateY(60px);
+    pointer-events: none;
+    transition: all 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.envelope-wrapper.letter-active .open-hint {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+
+/* MOBILE RESPONSIVENESS AND TABLET SUPPORT */
+
+@media (max-width: 600px) {
+    .envelope-wrapper {
+        width: 325px;
+        height: 220px;
+    }
+
+    .open-hint {
+        bottom: -50px;
+        font-size: 13.5px;
+    }
+
+    .wax-seal {
+        width: 50px;
+        height: 50px;
+    }
+
+    .seal-inner {
+        width: 38px;
+        height: 38px;
+    }
+
+    .seal-heart {
+        font-size: 16px;
+    }
+
+    /* Scaling the final active letter for small screen sizes */
+    .envelope-wrapper.letter-active .letter {
+        width: 90vw;
+        height: 72vh;
+        max-width: 360px;
+        min-height: 420px;
+    }
+
+    .letter-border {
+        margin: 0;
+        padding: 16px 20px;
+        height: 100%;
+    }
+
+    .letter-title {
+        font-size: 20px;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+        padding-right: 32px; /* Offset for mobile red margin line */
+    }
+
+    .letter-body {
+        background-size: 100% 30px;
+        background-position: 0 10px;
+        padding: 5px 0;
+        padding-right: 32px; /* Offset for mobile red margin line */
+    }
+
+    .letter-body::before {
+        right: 24px; /* Move vertical margin line closer to the edge on mobile */
+    }
+
+    .letter-line {
+        font-size: 17.5px;
+        line-height: 30px; /* Perfect vertical rhythm on mobile grid */
+    }
+
+    .letter-quote-box {
+        padding: 8px 12px;
+        margin: 8px 0;
+    }
+
+    .letter-line.font-highlight {
+        font-size: 20px;
+        line-height: 30px;
+        margin-top: 6px;
+    }
+
+    .letter-footer {
+        font-size: 13px;
+        padding-top: 6px;
+        margin-top: 8px;
+    }
+
+    .music-btn {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+/* Adjust landscape orientation on tiny mobile screens */
+@media (max-height: 480px) and (orientation: landscape) {
+    .envelope-wrapper.letter-active .letter {
+        height: 85vh;
+        min-height: auto;
+    }
+    
+    .letter-body {
+        gap: 4px;
+    }
+    
+    .letter-line {
+        font-size: 13.5px;
+        line-height: 1.4;
+    }
+}

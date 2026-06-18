@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى عيون منار الجميلة ❤️</title>
+    <!-- Google Fonts for premium Arabic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Night Sky Ambient Elements -->
+    <div id="stars" class="stars-layer"></div>
+    <div id="hearts" class="hearts-layer"></div>
+    <div class="moonlight"></div>
+    <div class="warm-glow"></div>
+
+    <!-- Background Music Toggle -->
+    <button id="music-toggle" class="music-btn" aria-label="تشغيل الموسيقى">
+        <span class="music-icon">🔇</span>
+    </button>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Interactive Envelope -->
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <!-- Envelope Back Wall -->
+            <div class="envelope-back" id="envelope-back"></div>
+            
+            <!-- The Letter (slides out and opens) - Sandwiched between back and front -->
+            <article class="letter" id="letter" aria-label="رسالة حب">
+                <div class="letter-border">
+                    <div class="letter-content">
+                        <h1 class="letter-title">إلى أنثتي النائمة الآن،</h1>
+                        <div class="letter-body">
+                            <p class="letter-line line-1">أنا مغرمٌ بكِ،</p>
+                            
+                            <div class="letter-quote-box">
+                                <p class="letter-line line-2">وعارف إنكِ لما تصحي</p>
+                                <p class="letter-line line-3">هتشوفي اللي كتبته بعيونكِ الجميلة.</p>
+                            </div>
+                            
+                            <p class="letter-line line-4">خليكي فاكرة دايمًا</p>
+                            <p class="letter-line line-5 font-highlight">إني مغرمٌ بتلك العيون.</p>
+                        </div>
+                        <footer class="letter-footer">
+                            من شخص مغرم بتلك العيون ❤️
+                        </footer>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Envelope Front (flap, pocket, seal) -->
+            <div class="envelope-front" id="envelope-front">
+                <!-- Top Flap (closes over the envelope) -->
+                <div class="envelope-flap"></div>
+                
+                <!-- Inner Pocket (holds the letter) -->
+                <div class="envelope-pocket"></div>
+                
+                <!-- Wax Seal (Click trigger to open the envelope) -->
+                <div class="wax-seal" id="wax-seal">
+                    <div class="seal-inner">
+                        <span class="seal-heart">❤</span>
+                    </div>
+                    <div class="seal-glow"></div>
+                </div>
+            </div>
+            
+            <!-- Floating interactive hint -->
+            <div class="open-hint" id="open-hint">
+                <span class="hint-text">اضغطي لفتح الرسالة ✨</span>
+                <span class="hint-pulse"></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Background Music (Gymnopédie No. 1 - Claude Debussy / Erik Satie styled piano) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gymnopedie%20No%201.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
